@@ -16,22 +16,16 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
 <properties>  
     <corenlp.version>3.8.0</corenlp.version>  
 </properties>
-
 <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
     </dependency>
     <dependency>  
         <groupId>edu.stanford.nlp</groupId>  
         <artifactId>stanford-corenlp</artifactId>  
-        <version>${corenlp.version}</version>  
-    </dependency>  
-    <dependency>
-        <groupId>edu.stanford.nlp</groupId>
-        <artifactId>stanford-parser</artifactId>
         <version>${corenlp.version}</version>  
     </dependency>
     <dependency>  
@@ -39,19 +33,7 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
         <artifactId>stanford-corenlp</artifactId>  
         <version>${corenlp.version}</version>  
         <classifier>models</classifier>  
-    </dependency>  
-    <dependency>  
-        <groupId>edu.stanford.nlp</groupId>  
-        <artifactId>stanford-corenlp</artifactId>  
-        <version>${corenlp.version}</version>  
-        <classifier>models-english</classifier>  
-    </dependency>  
-    <dependency>  
-        <groupId>edu.stanford.nlp</groupId>  
-        <artifactId>stanford-corenlp</artifactId>  
-        <version>${corenlp.version}</version>  
-        <classifier>models-chinese</classifier>  
-    </dependency>
+    </dependency> 
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
@@ -63,6 +45,27 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
         <version>1.7.25</version>
     </dependency>
 </dependencies>
+<build>
+    <plugins>
+      <!-- any other plugins -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+</build>
 ```
 
 <br>
@@ -120,11 +123,10 @@ jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 
 ### Ejecutar
 ```
-mvn compile
-mvn package
+mvn clean
 mvn install
 mvn exec:java -Dexec.mainClass="com.nlp.test.App"
-java -cp target/nlp-test-1.0-SNAPSHOT.jar com.nlp.test.App
+java -cp target/nlp-test-1.0-SNAPSHOT-jar-with-dependencies.jar com.nlp.test.App
 ```
 
 <br>
