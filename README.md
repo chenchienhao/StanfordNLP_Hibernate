@@ -123,6 +123,7 @@ jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 mvn compile
 mvn package
 mvn install
+mvn exec:java -Dexec.mainClass="com.nlp.test.App"
 java -cp target/nlp-test-1.0-SNAPSHOT.jar com.nlp.test.App
 ```
 
