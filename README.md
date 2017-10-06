@@ -9,6 +9,8 @@ Se Realiza la prueba de Stanford NLP en Java con la siguiente frase:
 mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=com.nlp.test -DartifactId=nlp-test
 ```
 
+<br>
+
 ### Agregar Dependencias en POM.xml:
 ```
 <properties>  
@@ -63,6 +65,8 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
 </dependencies>
 ```
 
+<br>
+
 ### El Código en /src/main/java/com/nlp/test/App.java
 ```
 package com.nlp.test;
@@ -85,29 +89,35 @@ public class App
 }
 ```
 
+<br>
+
 ### Crear nueva carpeta "resources" en nuestro proyecto Maven
 ```
 /src/main/resources
 ```
 
-
+<br>
 
 ### Descargar Módulo Jar de versión Español
 [Descargar.](http://nlp.stanford.edu/software/stanford-spanish-corenlp-2017-06-09-models.jar)
 
 más información en: https://stanfordnlp.github.io/CoreNLP/index.html#download
 
-
+<br>
 
 ### Unzip nuestro jar
 ```
 jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 ```
 
+<br>
+
 ### Trasladar la carpeta "edu" a dentro del "resources" que recién creada
 ```
 /src/main/resources/edu/.... 
 ```
+
+<br>
 
 ### Ejecutar
 ```
@@ -116,6 +126,8 @@ mvn package
 mvn install
 java -cp target/nlp-test-1.0-SNAPSHOT.jar com.nlp.test.App
 ```
+
+<br>
 
 ### Resultado Esperado
 ```
