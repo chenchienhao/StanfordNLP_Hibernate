@@ -1,6 +1,6 @@
 ## Prueba simple de Stanford NLP
 Se Realiza la prueba de Stanford NLP en Java con la siguiente frase:
-> Pedro entregó a Juan las rosas y luego barriò el piso
+> Pedro entregó a Juan las rosas y luego barrió el piso
 
 <br>
 
