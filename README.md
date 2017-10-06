@@ -1,16 +1,16 @@
-# Prueba simple de Stanford NLP
+## Prueba simple de Stanford NLP
 
-## Se Realiza la prueba de Stanford NLP en Java con la siguiente frase
+### Se Realiza la prueba de Stanford NLP en Java con la siguiente frase
 ```
 Pedro entregó a Juan las rosas y luego barriò el piso
 ```
 
-## Crear un Proyecto Maven
+### Crear un Proyecto Maven
 ```
 mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=com.nlp.test -DartifactId=nlp-test
 ```
 
-## Agregar Dependencias en POM.xml:
+### Agregar Dependencias en POM.xml:
 ```
 <properties>  
     <corenlp.version>3.8.0</corenlp.version>  
@@ -64,7 +64,7 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
 </dependencies>
 ```
 
-## El Código en /src/main/java/com/nlp/test/App.java
+### El Código en /src/main/java/com/nlp/test/App.java
 ```
 package com.nlp.test;
 
@@ -86,26 +86,26 @@ public class App
 }
 ```
 
-## Crear nueva carpeta "resources" en nuestro proyecto Maven
+### Crear nueva carpeta "resources" en nuestro proyecto Maven
 ```
 /src/main/resources
 ```
 
-## Descargar Módulo Jar de versión Español
-[Descargar aquí]: http://nlp.stanford.edu/software/stanford-spanish-corenlp-2017-06-09-models.jar
+### Descargar Módulo Jar de versión Español
+Descargar aquí: http://nlp.stanford.edu/software/stanford-spanish-corenlp-2017-06-09-models.jar
 más información en: https://stanfordnlp.github.io/CoreNLP/index.html#download
 
-## Unzip nuestro jar
+### Unzip nuestro jar
 ```
 jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 ```
 
-## Trasladar la carpeta "edu" a dentro del "resources" que recién creada
+### Trasladar la carpeta "edu" a dentro del "resources" que recién creada
 ```
 /src/main/resources/edu/.... 
 ```
 
-## Ejecutar
+### Ejecutar
 ```
 mvn compile
 mvn package
@@ -113,7 +113,7 @@ mvn install
 java -cp target/nlp-test-1.0-SNAPSHOT.jar com.nlp.test.App
 ```
 
-## Resultado Esperado
+### Resultado Esperado
 ```
 Pedro/PERS entregó/O a/O Juan/PERS las/O rosas/O y/O luego/O barrió/O el/O piso/O a/O las/O nueve/O de/O la/O mañana/O
 ```
