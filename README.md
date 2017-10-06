@@ -92,7 +92,7 @@ public class App
 ```
 
 ### Descargar Módulo Jar de versión Español
-Descargar aquí: http://nlp.stanford.edu/software/stanford-spanish-corenlp-2017-06-09-models.jar
+[Descargar](http://nlp.stanford.edu/software/stanford-spanish-corenlp-2017-06-09-models.jar)
 más información en: https://stanfordnlp.github.io/CoreNLP/index.html#download
 
 ### Unzip nuestro jar
