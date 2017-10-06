@@ -111,7 +111,7 @@ jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 
 <br>
 
-### Trasladar la carpeta "edu" a dentro del "resources" que recién creada
+### Trasladar a la carpeta "edu" al dentro de "resources"
 
 > /src/main/resources/edu/.... 
 
