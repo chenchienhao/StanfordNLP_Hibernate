@@ -92,9 +92,8 @@ public class App
 <br>
 
 ### Crear nueva carpeta "resources" en nuestro proyecto Maven
-```
-/src/main/resources
-```
+
+> /src/main/resources
 
 <br>
 
@@ -105,7 +104,7 @@ más información en: https://stanfordnlp.github.io/CoreNLP/index.html#download
 
 <br>
 
-### Unzip nuestro jar
+### Unzip JAR
 ```
 jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 ```
@@ -113,9 +112,9 @@ jar xf stanford-spanish-corenlp-2017-06-09-models.jar
 <br>
 
 ### Trasladar la carpeta "edu" a dentro del "resources" que recién creada
-```
-/src/main/resources/edu/.... 
-```
+
+> /src/main/resources/edu/.... 
+
 
 <br>
 
