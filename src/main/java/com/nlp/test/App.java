@@ -1,23 +1,46 @@
 package com.nlp.test;
 
-import edu.stanford.nlp.simple.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import edu.stanford.nlp.ie.AbstractSequenceClassifier;
-import edu.stanford.nlp.ie.crf.CRFClassifier;
-/**
- * Hello world!
- *
- */
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.util.CoreMap;
+
+import java.util.List;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        String serializedClassifier = "edu/stanford/nlp/models/ner/spanish.ancora.distsim.s512.crf.ser.gz";
-        AbstractSequenceClassifier classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
+    	App example = new App();
 
-        String s1 = "Pedro entregó a Juan las rosas y luego barrió el piso a las nueve de la mañana";
-        System.out.println(classifier.classifyToString(s1));
+        example.runSpanishAnnotators();
+    }
+     public void runSpanishAnnotators()
+     {
+        String text = "Pedro entregó a Juan las rosas y luego barrió el piso a las nueve de la mañana.";
+        Annotation document = new Annotation(text);
+        StanfordCoreNLP corenlp = new StanfordCoreNLP("StanfordCoreNLP-spanish.properties");
+        corenlp.annotate(document);
+        parserOutput(document);
+    }
 
+    public void parserOutput(Annotation document){
+        // these are all the sentences in this document
+        // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
+        List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+
+        for(CoreMap sentence: sentences) {
+            // traversing the words in the current sentence
+            // a CoreLabel is a CoreMap with additional token-specific methods
+            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                // this is the text of the token
+                String word = token.get(CoreAnnotations.TextAnnotation.class);
+                // this is the NER label of the token
+                String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                System.out.print(word+"/"+ne+" ");
+            }
+        }
     }
 }

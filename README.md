@@ -1,6 +1,6 @@
 ## Prueba simple de Stanford NLP
 Se Realiza la prueba de Stanford NLP en Java con la siguiente frase:
-> Pedro entregó a Juan las rosas y luego barrió el piso
+> Pedro entregó a Juan las rosas y luego barrió el piso a las nueve de la mañana.
 
 <br>
 
@@ -13,10 +13,19 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
 
 ### Agregar Dependencias en POM.xml:
 ```
-<properties>  
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.nlp.test</groupId>
+  <artifactId>nlp-test</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>nlp-test</name>
+  <url>http://maven.apache.org</url>
+  <properties>  
     <corenlp.version>3.8.0</corenlp.version>  
-</properties>
-<dependencies>
+  </properties>
+  <dependencies>
     <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -27,13 +36,19 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
         <groupId>edu.stanford.nlp</groupId>  
         <artifactId>stanford-corenlp</artifactId>  
         <version>${corenlp.version}</version>  
+    </dependency>  
+    <dependency>  
+        <groupId>edu.stanford.nlp</groupId>  
+        <artifactId>stanford-corenlp</artifactId>  
+        <version>${corenlp.version}</version>  
+        <classifier>models</classifier>
     </dependency>
     <dependency>  
         <groupId>edu.stanford.nlp</groupId>  
         <artifactId>stanford-corenlp</artifactId>  
         <version>${corenlp.version}</version>  
-        <classifier>models</classifier>  
-    </dependency> 
+        <classifier>models-spanish</classifier>
+    </dependency>
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
@@ -44,8 +59,8 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
         <artifactId>slf4j-jdk14</artifactId>
         <version>1.7.25</version>
     </dependency>
-</dependencies>
-<build>
+  </dependencies>
+  <build>
     <plugins>
       <!-- any other plugins -->
       <plugin>
@@ -65,7 +80,9 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
         </configuration>
       </plugin>
     </plugins>
-</build>
+  </build>
+</project>
+
 ```
 
 <br>
@@ -74,50 +91,52 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
 ```
 package com.nlp.test;
 
-import edu.stanford.nlp.simple.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import edu.stanford.nlp.ie.AbstractSequenceClassifier;
-import edu.stanford.nlp.ie.crf.CRFClassifier;
+import edu.stanford.nlp.ling.CoreAnnotations;
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.util.CoreMap;
+
+import java.util.List;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        String serializedClassifier = "edu/stanford/nlp/models/ner/spanish.ancora.distsim.s512.crf.ser.gz";
-        AbstractSequenceClassifier classifier = CRFClassifier.getClassifierNoExceptions(serializedClassifier);
+        App example = new App();
 
-        String s1 = "Pedro entregó a Juan las rosas y luego barrió el piso a las nueve de la mañana";
-        System.out.println(classifier.classifyToString(s1));
+        example.runSpanishAnnotators();
+    }
+     public void runSpanishAnnotators()
+     {
+        String text = "Pedro entregó a Juan las rosas y luego barrió el piso a las nueve de la mañana.";
+        Annotation document = new Annotation(text);
+        StanfordCoreNLP corenlp = new StanfordCoreNLP("StanfordCoreNLP-spanish.properties");
+        corenlp.annotate(document);
+        parserOutput(document);
+    }
+
+    public void parserOutput(Annotation document){
+        // these are all the sentences in this document
+        // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
+        List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+
+        for(CoreMap sentence: sentences) {
+            // traversing the words in the current sentence
+            // a CoreLabel is a CoreMap with additional token-specific methods
+            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+                // this is the text of the token
+                String word = token.get(CoreAnnotations.TextAnnotation.class);
+                // this is the NER label of the token
+                String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                System.out.print(word+"/"+ne+" ");
+            }
+        }
     }
 }
+
 ```
-
-<br>
-
-### Crear nueva carpeta "resources" en nuestro proyecto Maven
-
-> /src/main/resources
-
-<br>
-
-### Descargar Módulo Jar de versión Español
-[Descargar.](http://nlp.stanford.edu/software/stanford-spanish-corenlp-2017-06-09-models.jar)
-
-más información en: https://stanfordnlp.github.io/CoreNLP/index.html#download
-
-<br>
-
-### Unzip JAR
-```
-jar xf stanford-spanish-corenlp-2017-06-09-models.jar
-```
-
-<br>
-
-### Trasladar a la carpeta "edu" al dentro de "resources"
-
-> /src/main/resources/edu/.... 
-
 
 <br>
 
@@ -133,7 +152,7 @@ java -cp target/nlp-test-1.0-SNAPSHOT-jar-with-dependencies.jar com.nlp.test.App
 
 ### Resultado Esperado
 ```
-Pedro/PERS entregó/O a/O Juan/PERS las/O rosas/O y/O luego/O barrió/O el/O piso/O a/O las/O nueve/O de/O la/O mañana/O
+Pedro/PERS entregó/O a/O Juan/PERS las/O rosas/O y/O luego/O barrió/O el/O piso/O a/O las/O nueve/O de/O la/O mañana/O ./O
 ```
 
 OK! ;)
