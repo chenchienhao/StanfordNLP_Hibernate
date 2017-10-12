@@ -77,6 +77,7 @@ mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -Dgroup
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
       </plugin>
     </plugins>
@@ -142,10 +143,9 @@ public class App
 
 ### Ejecutar
 ```
-mvn clean
-mvn install
+mvn clean compile assembly:single
 mvn exec:java -Dexec.mainClass="com.nlp.test.App"
-java -cp target/nlp-test-1.0-SNAPSHOT-jar-with-dependencies.jar com.nlp.test.App
+java -cp target/nlp-test-1.0-SNAPSHOT.jar com.nlp.test.App
 ```
 
 <br>
