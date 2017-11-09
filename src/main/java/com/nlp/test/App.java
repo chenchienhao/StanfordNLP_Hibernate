@@ -1,12 +1,9 @@
 package com.nlp.test;
 
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.util.CoreMap;
-
-import java.util.List;
+import java.util.*;
+import com.nlp.test.stanfordnlp.VerifyText;
+import com.nlp.test.entity.CountPOSTag;
+import com.nlp.test.dao.CountPOSTagDAO;
 
 public class App 
 {
@@ -19,28 +16,15 @@ public class App
      public void runSpanishAnnotators()
      {
         String text = "Pedro entregó a Juan las rosas y luego barrió el piso a las nueve de la mañana.";
-        Annotation document = new Annotation(text);
-        StanfordCoreNLP corenlp = new StanfordCoreNLP("StanfordCoreNLP-spanish.properties");
-        corenlp.annotate(document);
-        parserOutput(document);
-    }
+        
+        //Object
+        System.out.println("Object initial");
+        CountPOSTag cpt= VerifyText.CountPOSTagProcess(text, 0, 0);
+        System.out.println("Object created");
 
-    public void parserOutput(Annotation document){
-        // these are all the sentences in this document
-        // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
-        List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
-
-        for(CoreMap sentence: sentences) {
-            // traversing the words in the current sentence
-            // a CoreLabel is a CoreMap with additional token-specific methods
-            for (CoreLabel token: sentence.get(CoreAnnotations.TokensAnnotation.class)) {
-                // this is the text of the token
-                String word = token.get(CoreAnnotations.TextAnnotation.class);
-                // this is the NER label of the token
-                String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
-
-                System.out.print(word+"/"+ne+" ");
-            }
-        }
+        //Insert to DB
+        System.out.println("DB initial");
+        CountPOSTagDAO.addCountPOSTag(cpt);
+        System.out.println("DB fin");
     }
 }
